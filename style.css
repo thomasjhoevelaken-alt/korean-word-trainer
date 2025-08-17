@@ -1,0 +1,4 @@
+body{font-family:sans-serif;max-width:650px;margin:auto;padding:20px;}
+input,button,select{padding:8px;margin:5px;}
+.word-item{border-bottom:1px solid #ccc;padding:5px;}
+.hidden{display:none;}
