@@ -1,4 +1,137 @@
-body{font-family:sans-serif;max-width:650px;margin:auto;padding:20px;}
-input,button,select{padding:8px;margin:5px;}
-.word-item{border-bottom:1px solid #ccc;padding:5px;}
-.hidden{display:none;}
+/* General layout */
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+  background: #f9f9f9;
+  color: #333;
+}
+
+/* Header */
+header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: #ffffff;
+  padding: 15px;
+  border-bottom: 2px solid #eee;
+}
+
+header .logo {
+  width: 40px;
+  height: 40px;
+}
+
+header h1 {
+  margin: 0;
+  font-size: 1.5em;
+  color: #222;
+}
+
+/* Sections */
+main {
+  padding: 15px;
+}
+
+section {
+  background: #ffffff;
+  padding: 15px;
+  margin-bottom: 20px;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+h2 {
+  margin-top: 0;
+  color: #444;
+}
+
+/* Forms */
+form {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-bottom: 10px;
+}
+
+form input {
+  padding: 8px;
+  font-size: 14px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  flex: 1;
+  min-width: 120px;
+}
+
+form button {
+  padding: 8px 12px;
+  background: #007bff;
+  border: none;
+  border-radius: 4px;
+  color: white;
+  cursor: pointer;
+}
+
+form button:hover {
+  background: #0056b3;
+}
+
+/* Word list */
+#wordList div {
+  background: #f3f3f3;
+  padding: 8px;
+  border-radius: 4px;
+  margin: 4px 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+/* Flashcards */
+.flashcard {
+  margin-top: 10px;
+  padding: 40px;
+  font-size: 20px;
+  text-align: center;
+  border: 2px solid #333;
+  border-radius: 8px;
+  background: #fffce6;
+  cursor: pointer;
+  min-height: 100px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.controls {
+  margin-top: 10px;
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+}
+
+.controls button {
+  padding: 6px 12px;
+  border: none;
+  border-radius: 4px;
+  background: #28a745;
+  color: white;
+  cursor: pointer;
+}
+
+.controls button:hover {
+  background: #1e7e34;
+}
+
+/* Buttons general */
+button {
+  cursor: pointer;
+}
+
+/* Stats */
+#statsArea div {
+  background: #f3f3f3;
+  padding: 6px;
+  border-radius: 4px;
+  margin: 4px 0;
+}

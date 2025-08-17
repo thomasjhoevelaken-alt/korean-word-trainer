@@ -1,61 +1,101 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Korean Word Trainer</title>
-<link rel="manifest" href="manifest.json">
-<meta name="theme-color" content="#4CAF50">
-<link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Korean Trainer</title>
+  <link rel="stylesheet" href="style.css">
+
+  <!-- PWA manifest -->
+  <link rel="manifest" href="manifest.json">
+  <meta name="theme-color" content="#ffffff">
+
+  <!-- App icon (favicon) -->
+  <link rel="icon" type="image/png" href="korean_flag_icon.png">
+
+  <script defer src="app.js"></script>
 </head>
 <body>
-<h1>🇰🇷 Korean Word Trainer</h1>
+  <header>
+    <img src="korean_flag_icon.png" alt="App Icon" class="logo">
+    <h1>Korean Trainer</h1>
+  </header>
 
-<div id="wordManagement">
-  <h2>Add / Edit Word</h2>
-  <input id="koreanWord" placeholder="Korean Word">
-  <input id="englishWord" placeholder="English Word">
-  <input id="categoriesInput" placeholder="Categories (comma-separated)">
-  <button onclick="addOrEditWord()">Add / Save Word</button>
-</div>
+  <main>
+    <!-- ========== WORD MANAGEMENT ========== -->
+    <section>
+      <h2>Add / Edit Word</h2>
+      <form id="wordForm">
+        <input id="krInput" placeholder="Korean" required>
+        <input id="enInput" placeholder="English" required>
+        <input id="catInput" placeholder="Categories (comma separated)">
+        <button type="submit">Save</button>
+      </form>
+      <div id="wordList"></div>
+    </section>
 
-<h2>Search / Filter</h2>
-<input id="searchInput" placeholder="Search words..." oninput="renderList()">
+    <!-- ========== FLASHCARDS ========== -->
+    <section>
+      <h2>Flashcards</h2>
+      <label>Category:
+        <select id="flashCategory"></select>
+      </label>
+      <label>Order:
+        <select id="orderMode">
+          <option value="order">In order</option>
+          <option value="shuffle">Shuffle</option>
+        </select>
+      </label>
+      <label>Front:
+        <select id="frontLang">
+          <option value="kr">Korean first</option>
+          <option value="en">English first</option>
+        </select>
+      </label>
+      <button onclick="startFlashcards()">Start</button>
 
-<h2>Word List</h2>
-<div id="wordList"></div>
+      <div id="flashcard" class="flashcard" onclick="flipFlashcard()">Click to flip</div>
+      <div class="controls">
+        <button onclick="prevCard()">⏮ Prev</button>
+        <button onclick="nextCard()">Next ⏭</button>
+      </div>
+    </section>
 
-<h2>Listening Mode</h2>
-<div>
-  <label>Delay (ms): <input type="number" id="listenDelay" value="1000"></label>
-  <button onclick="playAll()">Play All</button>
-  <button onclick="playRandom()">Play Random</button>
-  <label><input type="checkbox" id="shuffleToggle"> Shuffle</label>
-  <label>
-    <select id="langOrder">
-      <option value="krFirst">Korean first</option>
-      <option value="enFirst">English first</option>
-    </select>
-  </label>
-</div>
+    <!-- ========== LISTENING MODE ========== -->
+    <section>
+      <h2>Listening Mode</h2>
+      <label>Category:
+        <select id="listenCategory"></select>
+      </label>
+      <label>Order:
+        <select id="listenOrder">
+          <option value="order">In order</option>
+          <option value="shuffle">Shuffle</option>
+        </select>
+      </label>
+      <label>Delay (ms):
+        <input id="listenDelay" type="number" value="2000">
+      </label>
+      <button onclick="startListening()">▶ Start</button>
+      <button onclick="stopListening()">⏹ Stop</button>
+    </section>
 
-<h2>Quiz Mode</h2>
-<div>
-  <button onclick="startQuiz('multiple')">Multiple Choice Quiz</button>
-  <button onclick="startQuiz('type')">Type Answer Quiz</button>
-  <label>Category:
-    <select id="quizCategory">
-      <option value="all">All Words</option>
-    </select>
-  </label>
-</div>
+    <!-- ========== QUIZ MODE ========== -->
+    <section>
+      <h2>Quiz Mode</h2>
+      <label>Category:
+        <select id="quizCategory"></select>
+      </label>
+      <button onclick="startQuiz()">Start Quiz</button>
+      <div id="quizArea"></div>
+    </section>
 
-<h2>Progress</h2>
-<div id="progressStats"></div>
-
-<script src="app.js"></script>
-<script>
-if('serviceWorker' in navigator){navigator.serviceWorker.register('sw.js').then(()=>console.log('Service Worker Registered'));}
-</script>
+    <!-- ========== STATS ========== -->
+    <section>
+      <h2>Progress Stats</h2>
+      <button onclick="showStats()">Show Stats</button>
+      <div id="statsArea"></div>
+    </section>
+  </main>
 </body>
 </html>
