@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Korean Word Trainer</title>
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#4CAF50">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<h1>🇰🇷 Korean Word Trainer</h1>
+
+<div id="wordManagement">
+  <h2>Add / Edit Word</h2>
+  <input id="koreanWord" placeholder="Korean Word">
+  <input id="englishWord" placeholder="English Word">
+  <input id="categoriesInput" placeholder="Categories (comma-separated)">
+  <button onclick="addOrEditWord()">Add / Save Word</button>
+</div>
+
+<h2>Search / Filter</h2>
+<input id="searchInput" placeholder="Search words..." oninput="renderList()">
+
+<h2>Word List</h2>
+<div id="wordList"></div>
+
+<h2>Listening Mode</h2>
+<div>
+  <label>Delay (ms): <input type="number" id="listenDelay" value="1000"></label>
+  <button onclick="playAll()">Play All</button>
+  <button onclick="playRandom()">Play Random</button>
+  <label><input type="checkbox" id="shuffleToggle"> Shuffle</label>
+  <label>
+    <select id="langOrder">
+      <option value="krFirst">Korean first</option>
+      <option value="enFirst">English first</option>
+    </select>
+  </label>
+</div>
+
+<h2>Quiz Mode</h2>
+<div>
+  <button onclick="startQuiz('multiple')">Multiple Choice Quiz</button>
+  <button onclick="startQuiz('type')">Type Answer Quiz</button>
+  <label>Category:
+    <select id="quizCategory">
+      <option value="all">All Words</option>
+    </select>
+  </label>
+</div>
+
+<h2>Progress</h2>
+<div id="progressStats"></div>
+
+<script src="app.js"></script>
+<script>
+if('serviceWorker' in navigator){navigator.serviceWorker.register('sw.js').then(()=>console.log('Service Worker Registered'));}
+</script>
+</body>
+</html>
