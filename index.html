@@ -1,51 +1,60 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Korean Learning App</title>
-<link rel="icon" href="korean_flag.png" type="image/png">
-<link rel="stylesheet" href="style.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Korean Learning App</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="icon" href="korean_flag.png">
 </head>
 <body>
-<h1>Korean Learning App</h1>
+    <h1>Korean Learning App</h1>
 
-<section id="wordSection">
-  <h2>Vocabulary</h2>
-  <div id="lessonContainer"></div>
-  <input type="text" id="krInput" placeholder="Korean word">
-  <input type="text" id="enInput" placeholder="English meaning">
-  <input type="text" id="categoryInput" placeholder="Category (comma separated)">
-  <button id="addWordBtn">Add Word</button>
-</section>
+    <!-- Add Word Section -->
+    <section id="addWordSection">
+        <h2>Add Word</h2>
+        <input type="text" id="krInput" placeholder="Korean Word">
+        <input type="text" id="enInput" placeholder="English Meaning">
+        <input type="text" id="categoryInput" placeholder="Categories (comma separated)">
+        <button id="addWordBtn">Add Word</button>
+    </section>
 
-<section id="flashcardSection">
-  <h2>Flashcards</h2>
-  <select id="lessonSelect"></select>
-  <button id="startFlashBtn">Start Flashcards</button>
-  <div id="flashArea"></div>
-</section>
+    <!-- Lessons & Vocabulary -->
+    <section id="lessonsSection">
+        <h2>Vocabulary</h2>
+        <div id="lessonContainer"></div>
+    </section>
 
-<section id="listeningSection">
-  <h2>Listening Mode</h2>
-  <label>Delay (ms): <input type="number" id="listenDelay" value="1000"></label>
-  <div id="listeningWords"></div>
-  <button id="playAllBtn">Play Selected Audio</button>
-</section>
+    <!-- Flashcards -->
+    <section id="flashcardsSection">
+        <h2>Flashcards</h2>
+        <select id="lessonSelect"></select>
+        <button id="startFlashBtn">Start Flashcards</button>
+        <div id="flashArea"></div>
+    </section>
 
-<section id="quizSection">
-  <h2>Quiz Mode</h2>
-  <label>Multiple-choice options:
-    <select id="quizOptions">
-      <option value="5">5</option>
-      <option value="10">10</option>
-    </select>
-  </label>
-  <select id="quizLessonSelect"></select>
-  <button id="startQuizBtn">Start Quiz</button>
-  <div id="quizArea"></div>
-</section>
+    <!-- Listening Mode -->
+    <section id="listeningSection">
+        <h2>Listening Mode</h2>
+        <div id="listeningWords"></div>
+        <label>Delay (ms between words): <input type="number" id="listenDelay" value="1000"></label>
+        <button id="playAllBtn">Play All Selected Words</button>
+    </section>
 
-<script src="script.js"></script>
+    <!-- Quiz Mode -->
+    <section id="quizSection">
+        <h2>Quiz Mode</h2>
+        <select id="quizLessonSelect"></select>
+        <label>Options: 
+            <select id="quizOptions">
+                <option value="5">5</option>
+                <option value="10">10</option>
+            </select>
+        </label>
+        <button id="startQuizBtn">Start Quiz</button>
+        <div id="quizArea"></div>
+    </section>
+
+    <script src="script.js"></script>
 </body>
 </html>
