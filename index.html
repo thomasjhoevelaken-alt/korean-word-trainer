@@ -1,101 +1,78 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Korean Trainer</title>
-  <link rel="stylesheet" href="style.css">
-
-  <!-- PWA manifest -->
-  <link rel="manifest" href="manifest.json">
-  <meta name="theme-color" content="#ffffff">
-
-  <!-- App icon (favicon) -->
-  <link rel="icon" type="image/png" href="korean_flag_icon.png">
-
+  <link rel="stylesheet" href="style.css" />
+  <link rel="manifest" href="manifest.json" />
+  <meta name="theme-color" content="#ffffff" />
+  <link rel="icon" type="image/png" href="korean_flag_icon.png" />
   <script defer src="app.js"></script>
 </head>
 <body>
   <header>
-    <img src="korean_flag_icon.png" alt="App Icon" class="logo">
+    <img src="korean_flag_icon.png" class="logo" alt="Korean flag" />
     <h1>Korean Trainer</h1>
   </header>
 
   <main>
-    <!-- ========== WORD MANAGEMENT ========== -->
     <section>
       <h2>Add / Edit Word</h2>
       <form id="wordForm">
-        <input id="krInput" placeholder="Korean" required>
-        <input id="enInput" placeholder="English" required>
-        <input id="catInput" placeholder="Categories (comma separated)">
+        <input id="lessonInput" placeholder="Lesson" required />
+        <input id="krInput" placeholder="Korean" required />
+        <input id="enInput" placeholder="English" required />
         <button type="submit">Save</button>
       </form>
-      <div id="wordList"></div>
     </section>
 
-    <!-- ========== FLASHCARDS ========== -->
     <section>
-      <h2>Flashcards</h2>
-      <label>Category:
-        <select id="flashCategory"></select>
-      </label>
-      <label>Order:
-        <select id="orderMode">
-          <option value="order">In order</option>
-          <option value="shuffle">Shuffle</option>
-        </select>
-      </label>
-      <label>Front:
-        <select id="frontLang">
-          <option value="kr">Korean first</option>
-          <option value="en">English first</option>
-        </select>
-      </label>
-      <button onclick="startFlashcards()">Start</button>
-
-      <div id="flashcard" class="flashcard" onclick="flipFlashcard()">Click to flip</div>
-      <div class="controls">
-        <button onclick="prevCard()">⏮ Prev</button>
-        <button onclick="nextCard()">Next ⏭</button>
-      </div>
+      <h2>Vocabulary</h2>
+      <input id="searchInput" placeholder="Search..." />
+      <div id="lessonsContainer"></div>
     </section>
 
-    <!-- ========== LISTENING MODE ========== -->
     <section>
       <h2>Listening Mode</h2>
-      <label>Category:
-        <select id="listenCategory"></select>
-      </label>
+      <button id="listenStartBtn">▶ Play Selected</button>
+      <button id="listenStopBtn">⏹ Stop</button>
+      <label>Delay (ms): <input type="number" id="listenDelay" value="1200" /></label>
       <label>Order:
         <select id="listenOrder">
           <option value="order">In order</option>
           <option value="shuffle">Shuffle</option>
         </select>
       </label>
-      <label>Delay (ms):
-        <input id="listenDelay" type="number" value="2000">
+      <label>Front/Back:
+        <select id="listenFront">
+          <option value="kr">Korean first</option>
+          <option value="en">English first</option>
+        </select>
       </label>
-      <button onclick="startListening()">▶ Start</button>
-      <button onclick="stopListening()">⏹ Stop</button>
     </section>
 
-    <!-- ========== QUIZ MODE ========== -->
     <section>
-      <h2>Quiz Mode</h2>
-      <label>Category:
-        <select id="quizCategory"></select>
+      <h2>Quiz</h2>
+      <label>Mode:
+        <select id="quizMode">
+          <option value="typed">Typed</option>
+          <option value="mc5">Multiple Choice (5)</option>
+          <option value="mc10">Multiple Choice (10)</option>
+        </select>
       </label>
-      <button onclick="startQuiz()">Start Quiz</button>
+      <button id="startQuizBtn">Start Quiz</button>
       <div id="quizArea"></div>
     </section>
 
-    <!-- ========== STATS ========== -->
     <section>
-      <h2>Progress Stats</h2>
-      <button onclick="showStats()">Show Stats</button>
+      <h2>Progress</h2>
       <div id="statsArea"></div>
     </section>
   </main>
+
+  <footer>
+    <small>All data stays on your device. Installable & offline-ready.</small>
+  </footer>
 </body>
 </html>

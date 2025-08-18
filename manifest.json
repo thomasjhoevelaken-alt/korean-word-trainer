@@ -1,7 +1,7 @@
 {
   "name": "Korean Trainer",
-  "short_name": "Korean",
-  "start_url": ".",
+  "short_name": "KTrainer",
+  "start_url": "index.html",
   "display": "standalone",
   "background_color": "#ffffff",
   "theme_color": "#ffffff",
@@ -9,11 +9,6 @@
     {
       "src": "korean_flag_icon.png",
       "sizes": "192x192",
-      "type": "image/png"
-    },
-    {
-      "src": "korean_flag_icon.png",
-      "sizes": "512x512",
       "type": "image/png"
     }
   ]
