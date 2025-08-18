@@ -1,183 +1,151 @@
-// ========== Data Structures ==========
-let lessons = {}; // { lessonName: [ {kr, en, categories, selected} ] }
-let flashcards = [];
-let currentFlashIndex = 0;
+let words = [];
+let currentCardIndex = 0;
+let showingKorean = true;
 
-// Sample preload for first 10 HTSK lessons (shortened example)
-const preloadWords = {
-    "Lesson 1": [
-        { kr: "안녕하세요", en: "Hello", categories: ["greeting"], selected: true },
-        { kr: "감사합니다", en: "Thank you", categories: ["greeting"], selected: true }
-    ],
-    "Lesson 2": [
-        { kr: "네", en: "Yes", categories: ["response"], selected: true },
-        { kr: "아니요", en: "No", categories: ["response"], selected: true }
-    ]
-    // Add more lessons/words as needed
-};
+// Preload some words (HTSK lessons 1-3 as example)
+const preloadWords = [
+    {korean: '안녕하세요', english: 'Hello', lesson: '1', selected: true},
+    {korean: '감사합니다', english: 'Thank you', lesson: '1', selected: true},
+    {korean: '사랑', english: 'Love', lesson: '2', selected: true},
+    {korean: '학교', english: 'School', lesson: '2', selected: true},
+    {korean: '음식', english: 'Food', lesson: '3', selected: true},
+];
 
-// Load preloaded words
-lessons = { ...preloadWords };
+words.push(...preloadWords);
 
-// ========== Helper Functions ==========
+// DOM Elements
+const koreanInput = document.getElementById('korean-word');
+const englishInput = document.getElementById('english-word');
+const lessonInput = document.getElementById('lesson');
+const addBtn = document.getElementById('add-word');
+const lessonsContainer = document.getElementById('lessons-container');
+const flashcardText = document.getElementById('flashcard-text');
+const flipBtn = document.getElementById('flip-card');
+const prevBtn = document.getElementById('prev-card');
+const nextBtn = document.getElementById('next-card');
+const playSelectedBtn = document.getElementById('play-selected');
+const startQuizBtn = document.getElementById('start-quiz');
+const quizQuestion = document.getElementById('quiz-question');
+const quizOptions = document.getElementById('quiz-options');
+
+// Add word
+addBtn.addEventListener('click', () => {
+    const k = koreanInput.value.trim();
+    const e = englishInput.value.trim();
+    const l = lessonInput.value.trim();
+    if (!k || !e || !l) return alert('Fill all fields');
+    words.push({korean: k, english: e, lesson: l, selected: true});
+    koreanInput.value = '';
+    englishInput.value = '';
+    lessonInput.value = '';
+    renderLessons();
+});
+
+// Render lessons
 function renderLessons() {
-    const container = document.getElementById('lessonContainer');
-    container.innerHTML = '';
+    const lessons = {};
+    words.forEach(w => {
+        if (!lessons[w.lesson]) lessons[w.lesson] = [];
+        lessons[w.lesson].push(w);
+    });
+
+    lessonsContainer.innerHTML = '';
     for (let lesson in lessons) {
-        const div = document.createElement('div');
-        div.innerHTML = `<strong>${lesson}</strong> <button onclick="toggleLesson('${lesson}')">Show/Hide</button>`;
-        const wordList = document.createElement('div');
-        wordList.id = lesson + "_words";
-        wordList.style.display = 'none';
-        lessons[lesson].forEach((word, idx) => {
-            const wDiv = document.createElement('div');
-            wDiv.className = 'wordItem';
-            wDiv.innerHTML = `
-                <input type="checkbox" ${word.selected ? 'checked' : ''} onchange="toggleWord('${lesson}',${idx},this)">
-                ${word.kr} - ${word.en} [${word.categories.join(', ')}]
-                <button onclick="deleteWord('${lesson}',${idx})">Delete</button>
-            `;
-            wordList.appendChild(wDiv);
+        const lessonDiv = document.createElement('div');
+        const toggleBtn = document.createElement('button');
+        toggleBtn.textContent = `Lesson ${lesson}`;
+        let open = true;
+        toggleBtn.addEventListener('click', () => {
+            open = !open;
+            listDiv.style.display = open ? 'block' : 'none';
         });
-        div.appendChild(wordList);
-        container.appendChild(div);
-    }
-    updateLessonSelects();
-}
+        lessonDiv.appendChild(toggleBtn);
 
-function toggleLesson(lesson) {
-    const wordList = document.getElementById(lesson + "_words");
-    wordList.style.display = wordList.style.display === 'none' ? 'block' : 'none';
-}
+        const listDiv = document.createElement('div');
+        lessons[lesson].forEach((w, i) => {
+            const wordDiv = document.createElement('div');
+            const checkbox = document.createElement('input');
+            checkbox.type = 'checkbox';
+            checkbox.checked = w.selected;
+            checkbox.addEventListener('change', () => { w.selected = checkbox.checked; });
+            wordDiv.appendChild(checkbox);
 
-function toggleWord(lesson, idx, checkbox) {
-    lessons[lesson][idx].selected = checkbox.checked;
-}
+            const text = document.createElement('span');
+            text.textContent = `${w.korean} - ${w.english}`;
+            wordDiv.appendChild(text);
 
-function deleteWord(lesson, idx) {
-    lessons[lesson].splice(idx,1);
-    renderLessons();
-}
+            const delBtn = document.createElement('button');
+            delBtn.textContent = 'Delete';
+            delBtn.addEventListener('click', () => {
+                words.splice(words.indexOf(w), 1);
+                renderLessons();
+            });
+            wordDiv.appendChild(delBtn);
 
-function addWord() {
-    const kr = document.getElementById('krInput').value.trim();
-    const en = document.getElementById('enInput').value.trim();
-    const categories = document.getElementById('categoryInput').value.split(',').map(c=>c.trim());
-    if(!kr || !en) return alert("Enter both Korean and English.");
-    const lesson = "Custom";
-    if(!lessons[lesson]) lessons[lesson] = [];
-    lessons[lesson].push({kr,en,categories,selected:true});
-    renderLessons();
-    document.getElementById('krInput').value = '';
-    document.getElementById('enInput').value = '';
-    document.getElementById('categoryInput').value = '';
-}
-
-// ========== Flashcards ==========
-function updateLessonSelects() {
-    const flashSelect = document.getElementById('lessonSelect');
-    const quizSelect = document.getElementById('quizLessonSelect');
-    [flashSelect, quizSelect].forEach(sel=>{
-        sel.innerHTML = '';
-        for (let lesson in lessons) {
-            sel.innerHTML += `<option value="${lesson}">${lesson}</option>`;
-        }
-    });
-}
-
-function startFlashcards() {
-    const selectedLesson = document.getElementById('lessonSelect').value;
-    flashcards = lessons[selectedLesson].filter(w=>w.selected);
-    currentFlashIndex = 0;
-    showFlashcard();
-}
-
-function showFlashcard() {
-    const area = document.getElementById('flashArea');
-    if(flashcards.length === 0) { area.innerHTML = "No words selected."; return; }
-    const word = flashcards[currentFlashIndex];
-    area.innerHTML = `
-        <div class="flashCard" onclick="flipFlashcard()">
-            <span id="flashText">${word.kr}</span>
-        </div>
-        <button onclick="prevFlashcard()">Previous</button>
-        <button onclick="nextFlashcard()">Next</button>
-    `;
-}
-
-function flipFlashcard() {
-    const text = document.getElementById('flashText');
-    const word = flashcards[currentFlashIndex];
-    text.innerText = text.innerText === word.kr ? word.en : word.kr;
-}
-
-function nextFlashcard() {
-    currentFlashIndex = (currentFlashIndex + 1) % flashcards.length;
-    showFlashcard();
-}
-
-function prevFlashcard() {
-    currentFlashIndex = (currentFlashIndex - 1 + flashcards.length) % flashcards.length;
-    showFlashcard();
-}
-
-// ========== Listening Mode ==========
-function playAllSelected() {
-    const delay = parseInt(document.getElementById('listenDelay').value);
-    let selectedWords = [];
-    for(let lesson in lessons) {
-        lessons[lesson].forEach(w=>{
-            if(w.selected) selectedWords.push(w);
+            listDiv.appendChild(wordDiv);
         });
+        lessonDiv.appendChild(listDiv);
+        lessonsContainer.appendChild(lessonDiv);
     }
-    let i = 0;
-    function playNext() {
-        if(i >= selectedWords.length) return;
-        const word = selectedWords[i];
-        const utter = new SpeechSynthesisUtterance(word.kr);
-        utter.lang = 'ko-KR';
+}
+
+// Flashcards
+function showCard() {
+    if (!words.length) return flashcardText.textContent = 'No words';
+    const w = words[currentCardIndex];
+    flashcardText.textContent = showingKorean ? w.korean : w.english;
+}
+flipBtn.addEventListener('click', () => {
+    showingKorean = !showingKorean;
+    showCard();
+});
+prevBtn.addEventListener('click', () => {
+    currentCardIndex = (currentCardIndex - 1 + words.length) % words.length;
+    showingKorean = true;
+    showCard();
+});
+nextBtn.addEventListener('click', () => {
+    currentCardIndex = (currentCardIndex + 1) % words.length;
+    showingKorean = true;
+    showCard();
+});
+
+// Listening
+async function speak(text, lang='ko-KR') {
+    return new Promise(resolve => {
+        const utter = new SpeechSynthesisUtterance(text);
+        utter.lang = lang;
+        utter.onend = resolve;
         speechSynthesis.speak(utter);
-        i++;
-        setTimeout(playNext, delay);
-    }
-    playNext();
-}
-
-// ========== Quiz Mode ==========
-function startQuiz() {
-    const selectedLesson = document.getElementById('quizLessonSelect').value;
-    const optionCount = parseInt(document.getElementById('quizOptions').value);
-    const quizArea = document.getElementById('quizArea');
-    const quizWords = lessons[selectedLesson].filter(w=>w.selected);
-    if(quizWords.length === 0) { quizArea.innerHTML = "No words selected."; return; }
-
-    const word = quizWords[Math.floor(Math.random()*quizWords.length)];
-    let options = [word.en];
-    while(options.length<optionCount) {
-        const random = quizWords[Math.floor(Math.random()*quizWords.length)].en;
-        if(!options.includes(random)) options.push(random);
-    }
-    options = options.sort(()=>Math.random()-0.5);
-
-    quizArea.innerHTML = `<div><strong>${word.kr}</strong></div>`;
-    options.forEach(opt=>{
-        const btn = document.createElement('button');
-        btn.className = 'quizOption';
-        btn.innerText = opt;
-        btn.onclick = ()=> {
-            if(opt===word.en) alert("Correct!");
-            else alert(`Wrong! Correct answer: ${word.en}`);
-            startQuiz();
-        }
-        quizArea.appendChild(btn);
     });
 }
+playSelectedBtn.addEventListener('click', async () => {
+    for (let w of words.filter(w => w.selected)) {
+        await speak(w.korean, 'ko-KR');
+        await speak(w.english, 'en-US');
+    }
+});
 
-// ========== Event Listeners ==========
-document.getElementById('addWordBtn').addEventListener('click', addWord);
-document.getElementById('startFlashBtn').addEventListener('click', startFlashcards);
-document.getElementById('playAllBtn').addEventListener('click', playAllSelected);
-document.getElementById('startQuizBtn').addEventListener('click', startQuiz);
+// Quiz
+function shuffleArray(arr) {
+    return arr.sort(() => Math.random() - 0.5);
+}
+startQuizBtn.addEventListener('click', () => {
+    const quizWords = words.filter(w => w.selected);
+    if (!quizWords.length) return alert('No words selected');
+    const current = quizWords[Math.floor(Math.random() * quizWords.length)];
+    quizQuestion.textContent = `What is the English for "${current.korean}"?`;
+    const options = shuffleArray([current, ...shuffleArray(quizWords).slice(0, 4)]).slice(0,5);
+    quizOptions.innerHTML = '';
+    options.forEach(opt => {
+        const btn = document.createElement('button');
+        btn.textContent = opt.english;
+        btn.addEventListener('click', () => {
+            alert(opt.english === current.english ? 'Correct!' : `Wrong! Correct: ${current.english}`);
+        });
+        quizOptions.appendChild(btn);
+    });
+});
 
-// Initial render
 renderLessons();
+showCard();
