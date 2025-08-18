@@ -1,78 +1,51 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Korean Trainer</title>
-  <link rel="stylesheet" href="style.css" />
-  <link rel="manifest" href="manifest.json" />
-  <meta name="theme-color" content="#ffffff" />
-  <link rel="icon" type="image/png" href="korean_flag_icon.png" />
-  <script defer src="app.js"></script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Korean Learning App</title>
+<link rel="icon" href="korean_flag.png" type="image/png">
+<link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <header>
-    <img src="korean_flag_icon.png" class="logo" alt="Korean flag" />
-    <h1>Korean Trainer</h1>
-  </header>
+<h1>Korean Learning App</h1>
 
-  <main>
-    <section>
-      <h2>Add / Edit Word</h2>
-      <form id="wordForm">
-        <input id="lessonInput" placeholder="Lesson" required />
-        <input id="krInput" placeholder="Korean" required />
-        <input id="enInput" placeholder="English" required />
-        <button type="submit">Save</button>
-      </form>
-    </section>
+<section id="wordSection">
+  <h2>Vocabulary</h2>
+  <div id="lessonContainer"></div>
+  <input type="text" id="krInput" placeholder="Korean word">
+  <input type="text" id="enInput" placeholder="English meaning">
+  <input type="text" id="categoryInput" placeholder="Category (comma separated)">
+  <button id="addWordBtn">Add Word</button>
+</section>
 
-    <section>
-      <h2>Vocabulary</h2>
-      <input id="searchInput" placeholder="Search..." />
-      <div id="lessonsContainer"></div>
-    </section>
+<section id="flashcardSection">
+  <h2>Flashcards</h2>
+  <select id="lessonSelect"></select>
+  <button id="startFlashBtn">Start Flashcards</button>
+  <div id="flashArea"></div>
+</section>
 
-    <section>
-      <h2>Listening Mode</h2>
-      <button id="listenStartBtn">▶ Play Selected</button>
-      <button id="listenStopBtn">⏹ Stop</button>
-      <label>Delay (ms): <input type="number" id="listenDelay" value="1200" /></label>
-      <label>Order:
-        <select id="listenOrder">
-          <option value="order">In order</option>
-          <option value="shuffle">Shuffle</option>
-        </select>
-      </label>
-      <label>Front/Back:
-        <select id="listenFront">
-          <option value="kr">Korean first</option>
-          <option value="en">English first</option>
-        </select>
-      </label>
-    </section>
+<section id="listeningSection">
+  <h2>Listening Mode</h2>
+  <label>Delay (ms): <input type="number" id="listenDelay" value="1000"></label>
+  <div id="listeningWords"></div>
+  <button id="playAllBtn">Play Selected Audio</button>
+</section>
 
-    <section>
-      <h2>Quiz</h2>
-      <label>Mode:
-        <select id="quizMode">
-          <option value="typed">Typed</option>
-          <option value="mc5">Multiple Choice (5)</option>
-          <option value="mc10">Multiple Choice (10)</option>
-        </select>
-      </label>
-      <button id="startQuizBtn">Start Quiz</button>
-      <div id="quizArea"></div>
-    </section>
+<section id="quizSection">
+  <h2>Quiz Mode</h2>
+  <label>Multiple-choice options:
+    <select id="quizOptions">
+      <option value="5">5</option>
+      <option value="10">10</option>
+    </select>
+  </label>
+  <select id="quizLessonSelect"></select>
+  <button id="startQuizBtn">Start Quiz</button>
+  <div id="quizArea"></div>
+</section>
 
-    <section>
-      <h2>Progress</h2>
-      <div id="statsArea"></div>
-    </section>
-  </main>
-
-  <footer>
-    <small>All data stays on your device. Installable & offline-ready.</small>
-  </footer>
+<script src="script.js"></script>
 </body>
 </html>
